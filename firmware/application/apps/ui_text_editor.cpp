@@ -125,6 +125,35 @@ bool TextViewer::on_encoder(EncoderEvent delta) {
     return updated;
 }
 
+bool TextViewer::on_touch(const TouchEvent event) {
+    if (event.type == TouchEvent::Type::Move) {
+        constexpr auto w = screen_width / 3;
+        constexpr auto h = screen_height / 3;
+
+        auto dx = 0;
+        auto dy = 0;
+        auto x = event.point.x();
+        auto y = event.point.y();
+
+        if (x < w)
+            dx = -1;
+        else if (x > w * 2)
+            dx = 1;
+
+        if (y < h)
+            dy = -1;
+        else if (y > h * 2)
+            dy = 1;
+
+        if (dx != 0 || dy != 0) {
+            if (apply_scrolling_constraints(dy, dx))
+                redraw();
+        }
+    }
+
+    return true;
+}
+
 void TextViewer::redraw(bool redraw_text) {
     paint_state_.redraw_text = redraw_text;
     set_dirty();

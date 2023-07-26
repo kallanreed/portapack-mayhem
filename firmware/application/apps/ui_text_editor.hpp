@@ -61,6 +61,7 @@ class TextViewer : public Widget {
     void paint(Painter& painter) override;
     bool on_key(KeyEvent key) override;
     bool on_encoder(EncoderEvent delta) override;
+    bool on_touch(TouchEvent event) override;
 
     void redraw(bool redraw_text = false);
 
